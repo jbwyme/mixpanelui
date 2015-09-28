@@ -12,7 +12,13 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.1.2",
+    "css-loader": "^0.19.0",
+    "jquery": "^2.1.4",
+    "less": "^2.5.3",
+    "less-loader": "^2.2.1",
+    "lodash": "^3.10.1",
     "react": "^0.13.3",
+    "react-portal": "^0.7.0",
     "react-redux": "^0.2.1",
     "redux": "^1.0.0-rc"
   },

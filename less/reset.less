@@ -1,0 +1,263 @@
+/**
+ * Global Reset of all HTML Elements
+ *
+ * Resetting all of our HTML Elements ensures a smoother
+ * visual transition between browsers. If you don't believe me,
+ * try temporarily commenting out this block of code, then go
+ * and look at Mozilla versus Safari, both good browsers with
+ * a good implementation of CSS. The thing is, all browser CSS
+ * defaults are different and at the end of the day if visual
+ * consistency is what we're shooting for, then we need to
+ * make sure we're resetting all spacing elements.
+ *
+ */
+html,
+body {
+  border: 0;
+  font-family: "Helvetica-Neue", "Helvetica", Arial, sans-serif;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+div,
+span,
+object,
+iframe,
+img,
+table,
+caption,
+thead,
+tbody,
+tfoot,
+tr,
+tr,
+td,
+article,
+aside,
+canvas,
+details,
+figure,
+hgroup,
+menu,
+nav,
+footer,
+header,
+section,
+summary,
+mark,
+audio,
+video {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+address,
+cit,
+code,
+del,
+dfn,
+em,
+ins,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+b,
+i,
+hr,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+legend,
+label {
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+}
+article,
+aside,
+canvas,
+figure,
+figure img,
+figcaption,
+hgroup,
+footer,
+header,
+nav,
+section,
+audio,
+video {
+  display: block;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+table caption,
+table th,
+table td {
+  text-align: left;
+  vertical-align: middle;
+}
+a img {
+  border: 0;
+}
+:focus {
+  outline: 0;
+}
+.app {
+  font-family: helvetica;
+}
+.app input[type=text] {
+  padding: 4px;
+}
+.app .header {
+  background-color: #a1b0ab;
+  color: #fff;
+  padding: 20px 0px 20px 10px;
+  font-size: 20px;
+}
+.app .middle .nav {
+  min-width: 250px;
+  border-right: 1px solid #6b6054;
+  display: table-cell;
+  vertical-align: top;
+}
+.app .middle .nav li {
+  list-style-type: none;
+}
+.app .middle .nav li.section {
+  background-color: #6b6054;
+  color: #fff;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+.app .middle .nav li.users-section {
+  position: relative;
+}
+.app .middle .nav li.users-section .quick-add-btn {
+  float: right;
+  margin-right: 6px;
+  padding: 4px;
+  cursor: pointer;
+}
+.app .middle .nav li.users-section .quick-add-btn:hover {
+  color: yellow;
+}
+.app .middle .nav li.users-section .quick-add-modal {
+  position: absolute;
+  z-index: 1;
+  background-color: #6b6054;
+  right: 0px;
+  width: 190px;
+  padding: 10px;
+}
+.app .middle .nav li.users-section .quick-add-modal input[type=text] {
+  margin-bottom: 4px;
+  width: 180px;
+}
+.app .middle .nav li.users-section .quick-add-modal button {
+  padding: 6px;
+  float: right;
+}
+.app .middle .nav li a {
+  display: block;
+  height: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 20px;
+  color: inherit;
+  text-decoration: none;
+}
+.app .middle .nav li a:hover {
+  background-color: #d5ecd4;
+}
+.app .middle .body {
+  display: table-cell;
+  padding: 10px;
+  width: 100%;
+}
+.app .middle .body .task-list {
+  list-style-type: none;
+  width: 100%;
+}
+.app .middle .body .task-list li {
+  position: relative;
+}
+.app .middle .body .task-list li.selected {
+  background-color: #d5ecd4;
+}
+.app .middle .body .task-list li:hover {
+  background-color: #eee;
+}
+.app .middle .body .task-list li .handle {
+  color: #ccc;
+  cursor: move;
+}
+.app .middle .body .task-list li .handle:hover {
+  color: #333;
+}
+.app .middle .body .task-list li .task-input {
+  color: #212F40;
+  width: 100%;
+  background: transparent;
+  border: 0px solid transparent;
+  outline: 0px solid transparent;
+  position: absolute;
+  padding: 0px 0px 0px 0px;
+  left: 30px;
+  top: -1px;
+  line-height: 1.4;
+  overflow: hidden;
+  resize: none;
+}
+.app .middle .body .task-list .sortable-placeholder {
+  background-color: #ccc;
+  height: 1px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.app .middle .body .task-viewer {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  width: 400px;
+  background-color: #CADEE7;
+  border-left: 3px solid #a1b0ab;
+  padding: 10px;
+}
+.app .middle .body .task-viewer label {
+  display: block;
+}
+.app .footer {
+  background-color: #A1B0AB;
+  color: #fff;
+  padding: 10px 0px;
+  text-align: center;
+}
+.app .clear {
+  clear: both;
+}

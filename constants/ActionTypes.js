@@ -1,1 +1,2 @@
-// export const SOME_ACTION = 'SOME_ACTION';
+export const SELECT_ITEM = 'SELECT_ITEM';
+export const SET_BTN_COORDINATES = 'SET_BTN_COORDINATES';
