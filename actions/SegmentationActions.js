@@ -22,6 +22,14 @@ export function selectProperty(idx, property) {
     }
 }
 
+export function castPropertyType(idx, propType) {
+    return {
+        type: types.CAST_PROPERTY_TYPE,
+        idx: idx,
+        propType: propType.value
+    }
+}
+
 export function selectOp(idx, op) {
     return {
         type: types.SELECT_OP,

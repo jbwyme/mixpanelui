@@ -11,7 +11,7 @@ class Dropdown extends React.Component {
                 <div className='placeholder'>{item.label}</div>
             </div>
             <div className="arrow"></div>
-        </div>
+        </div>;
 
         let MenuContainer = React.createClass({
             render: function() {

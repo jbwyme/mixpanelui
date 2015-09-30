@@ -9,6 +9,9 @@ export default function segmentation(state = {}, action) {
         case types.SELECT_PROPERTY:
             state['filters'][action.idx].property = action.property;
             return Object.assign({}, state);
+        case types.CAST_PROPERTY_TYPE:
+            state['filters'][action.idx].property.type = action.propType;
+            return Object.assign({}, state);
         case types.SELECT_OP:
             state['filters'][action.idx].op = action.op;
             return Object.assign({}, state);

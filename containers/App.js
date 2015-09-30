@@ -46,12 +46,8 @@ const store = createStore(reducer, {
             {
                 property: {
                     label: 'Browser',
-                    value: '$browser'
-                },
-
-                propType: {
-                    label: 'String',
-                    value: 'string'
+                    value: '$browser',
+                    type: 'string'
                 },
 
                 op: {
@@ -84,12 +80,8 @@ const store = createStore(reducer, {
             }, {
                 property: {
                     label: 'Browser',
-                    value: '$browser'
-                },
-
-                propType: {
-                    label: 'True / False',
-                    value: 'boolean'
+                    value: '$browser',
+                    type: 'string'
                 },
 
                 op: {
@@ -103,12 +95,8 @@ const store = createStore(reducer, {
             }, {
                 property: {
                     label: 'Browser',
-                    value: '$browser'
-                },
-
-                propType: {
-                    label: 'String',
-                    value: 'string'
+                    value: '$browser',
+                    type: 'string'
                 }
             }
         ],

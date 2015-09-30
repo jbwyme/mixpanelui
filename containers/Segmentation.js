@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Segfilter from '../components/Segfilter';
+import Segfilter from '../components/segfilter';
 import * as actions from '../actions/SegmentationActions';
 
 class Segmentation extends Component {
