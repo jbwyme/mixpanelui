@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Segfilter from '../components/Segfilter';
 import * as actions from '../actions/SegmentationActions';
-require("!style!css!less!../less/segmentation.less");
 
 class Segmentation extends Component {
     render() {
