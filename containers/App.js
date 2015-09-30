@@ -55,6 +55,37 @@
                  label: 'Chrome',
                  value: 'chrome'
              }
+         }, {
+             selectedProperty: {
+                 label: 'Browser',
+                 value: '$browser'
+             },
+             selectedOp: {
+                 label: 'Equals',
+                 value: '='
+             },
+             selectedValue: {
+                 label: 'Chrome',
+                 value: 'chrome'
+             }
+         }, {
+             selectedProperty: {
+                 label: 'Browser',
+                 value: '$browser'
+             },
+             selectedOp: {
+                 label: 'Equals',
+                 value: '='
+             },
+             selectedValue: {
+                 label: 'Chrome',
+                 value: 'chrome'
+             }
+         }, {
+             selectedProperty: {
+                 label: 'Browser',
+                 value: '$browser'
+             }
          }
      ]
  }});
