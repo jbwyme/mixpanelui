@@ -225,29 +225,34 @@ body::before {
   vertical-align: top
 }
 
-.icon_dropdown .icon {
-  background-image: url(//cdn.mxpnl.com/cache/86e7a9704481d99cba363aa05a2e32d4/images/widgets/property_filter/property_filter_icons.png);
-  width: 16px;
-  height: 15px;
-  float: left;
-  margin: 2px 6px 0 0
+.icon_dropdown, .icon_dropdown_item {
+  .icon {
+    background-image: url(//cdn.mxpnl.com/cache/86e7a9704481d99cba363aa05a2e32d4/images/widgets/property_filter/property_filter_icons.png);
+    width: 16px;
+    height: 15px;
+    float: left;
+    margin: 2px 6px 0 0;
+
+
+    &.number {
+      background-position: 0 -15px
+    }
+
+    &.boolean {
+      background-position: 0 -30px
+    }
+
+    &.list {
+      background-position: 0 -45px
+    }
+
+    &.datetime {
+      background-position: 0 -60px
+    }
+  }
 }
 
-.icon_dropdown .icon.number {
-  background-position: 0 -15px
-}
 
-.icon_dropdown .icon.boolean {
-  background-position: 0 -30px
-}
-
-.icon_dropdown .icon.list {
-  background-position: 0 -45px
-}
-
-.icon_dropdown .icon.datetime {
-  background-position: 0 -60px
-}
 
 .rounded_dropdown_label .search_box {
   background-color: inherit;
@@ -395,7 +400,6 @@ body::before {
 
 .filterable_dropdown_body, .rounded_dropdown_body, .rounded_checkbox_body, .icon_dropdown_body {
   position: absolute;
-  top: 32px;
   max-height: 300px;
   min-width: 168px;
   max-width: 350px;

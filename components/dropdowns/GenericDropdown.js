@@ -2,20 +2,22 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import Portal from './Portal'
+import $ from 'jquery'
 
-class Dropdown extends React.Component {
+class GenericDropdown extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            selected: props.value || { label: 'Select...', value: '' },
+            selected: props.value || {label: 'Select...', value: ''},
             isOpen: false
-        }
+        };
         this.mounted = true;
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.value && newProps.value !== this.state.selected) {
+        if (newProps.value && newProps.value !== this.state.selected.value) {
             this.setState({selected: newProps.value});
         }
     }
@@ -30,7 +32,6 @@ class Dropdown extends React.Component {
     }
 
     handleMouseDown(event) {
-
         if (event.type == 'mousedown' && event.button !== 0) return;
         event.stopPropagation();
         event.preventDefault();
@@ -44,7 +45,7 @@ class Dropdown extends React.Component {
         let newState = {
             selected: option,
             isOpen: false
-        }
+        };
         this.fireChangeEvent(newState);
         this.setState(newState);
     }
@@ -55,15 +56,16 @@ class Dropdown extends React.Component {
         }
     }
 
-    renderOption (option) {
+    renderOption(option) {
         let optionClass = classNames({
             'Dropdown-option': true,
-            'rounded_dropdown_item': true,
-            'dropdown_item_widget': true,
             'is-selected': option == this.state.selected
         });
 
-        return <div key={option.value} className={optionClass} onMouseDown={this.setValue.bind(this, option)} onClick={this.setValue.bind(this, option)}>{option.label}</div>
+        return <div key={option.value} className={optionClass} onMouseDown={this.setValue.bind(this, option)}
+                    onClick={this.setValue.bind(this, option)}>
+            {this.props.itemRenderer(option)}
+        </div>
     }
 
     buildMenu() {
@@ -87,32 +89,53 @@ class Dropdown extends React.Component {
     }
 
     handleDocumentClick(event) {
-        if(this.mounted) {
+        if (this.mounted) {
             if (!React.findDOMNode(this).contains(event.target)) {
-                this.setState({isOpen:false});
+                this.setState({isOpen: false});
             }
         }
     }
 
     render() {
-        let value = (<div className='placeholder'>{this.state.selected.label}</div>);
-        let menu = this.state.isOpen ? <div className='Dropdown-menu rounded_dropdown_body dropdown_body_widget'>{this.buildMenu()}</div> : null;
-
-        let dropdownClass = classNames({
-            'Dropdown': true,
-            'is-open': this.state.isOpen
+        let _defaultMenuContainer = React.createClass({
+            render: function () {
+                return (
+                    <div>{this.props.children}</div>
+                );
+            }
         });
+        let MenuContainer = this.props.MenuContainer || _defaultMenuContainer;
+        let menu = this.state.isOpen ?
+            <MenuContainer>
+                {this.buildMenu()}
+            </MenuContainer> : null;
+
+        let button = <div ref="button" className='Dropdown-control'
+                          onMouseDown={this.handleMouseDown.bind(this)} onTouchEnd={this.handleMouseDown.bind(this)}>
+            {this.props.buttonRenderer(this.state.selected)}
+        </div>;
 
         return (
-            <div className={dropdownClass}>
-                <div className='Dropdown-control rounded_dropdown_label dropdown_label_widget' onMouseDown={this.handleMouseDown.bind(this)} onTouchEnd={this.handleMouseDown.bind(this)}>
-                    <div className="title">{value}</div>
-                    <div className="arrow"></div>
-                </div>
-                {menu}
+            <div {...this.props}>
+                <Portal isOpened={false} onOpen={this.onOpen.bind(this)} openByClickOn={button} closeOnEsc={true}
+                        closeOnOutsideClick={true}>
+                    {menu}
+                </Portal>
             </div>
         );
     }
+
+    onOpen(portal) {
+        let $btn = $(React.findDOMNode(this.refs.button));
+        let $portal = $(portal);
+        $portal.css({
+            position: 'absolute',
+            left: $btn.offset().left + 'px',
+            top: ($btn.offset().top + $btn.outerHeight() - 1) + 'px',
+            minWidth: $btn.outerWidth() + 'px',
+            zIndex: 3
+        });
+    }
 }
 
-export default Dropdown;
+export default GenericDropdown;

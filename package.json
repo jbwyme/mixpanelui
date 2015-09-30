@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-boilerplate",
+  "name": "mixpanelui",
   "version": "0.0.1",
-  "description": "React Redux Boilerplate",
+  "description": "Mixpanel UI",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -18,10 +18,8 @@
     "less-loader": "^2.2.1",
     "lodash": "^3.10.1",
     "react": "^0.13.3",
-    "react-dropdown": "^0.5.1",
     "react-portal": "^0.7.0",
     "react-redux": "^0.2.1",
-    "react-select": "^0.6.11",
     "redux": "^1.0.0-rc"
   },
   "devDependencies": {
@@ -35,7 +33,6 @@
     "raw-loader": "^0.5.1",
     "react-hot-loader": "^1.2.7",
     "style-loader": "^0.12.3",
-    "todomvc-app-css": "^2.0.1",
     "webpack": "^1.9.11",
     "webpack-dev-server": "^1.9.0"
   }

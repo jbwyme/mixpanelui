@@ -38,9 +38,23 @@ export function selectPropValue(idx, value) {
     }
 }
 
-export function addFilter() {
+export function addFilter(idx = null) {
     return {
-        type: types.ADD_FILTER
+        type: types.ADD_FILTER,
+        idx: idx
+    }
+}
+
+export function removeFilter(idx) {
+    return {
+        type: types.REMOVE_FILTER,
+        idx: idx
+    }
+}
+
+export function toggleFilterOp() {
+    return {
+        type: types.TOGGLE_FILTER_OP
     }
 }
 
