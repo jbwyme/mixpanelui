@@ -1,81 +1,110 @@
-import * as types from '../constants/ActionTypes';
+import * as types from '../constants/SegmentationActionTypes';
 
-export function topEventsLoaded(events) {
+export function requestTopEvents() {
     return {
-        type: types.TOP_EVENTS_LOADED,
+        type: types.REQUEST_TOP_EVENTS
+    }
+}
+
+export function receiveTopEvents(events) {
+    return {
+        type: types.RECEIVE_TOP_EVENTS,
         events: events
     }
 }
 
-export function selectEvent(event) {
+export function topEventsLoadFailure(err) {
     return {
-        type: types.SELECT_EVENT,
-        event: event
+        type: types.TOP_EVENTS_LOAD_FAILURE,
+        err: err
     }
 }
 
-export function selectProperty(idx, property) {
+export function fetchTopEvents() {
+
+    // Thunk middleware knows how to handle functions.
+    // It passes the dispatch method as an argument to the function,
+    // thus making it able to dispatch actions itself.
+    return function(dispatch) {
+        dispatch(requestTopEvents());
+        return window.MP.api.topEvents()
+            .then(response => response.json)
+            .then(vals => vals.map(function(e) { return {label: e, value: e}}))
+            .then(topEvents => dispatch(receiveTopEvents(topEvents)))
+            .fail(err => dispatch(topEventsLoadFailure(err)));
+    };
+}
+
+export function requestTopProperties() {
     return {
-        type: types.SELECT_PROPERTY,
-        idx: idx,
-        property: property
+        type: types.REQUEST_TOP_PROPERTIES
     }
 }
 
-export function castPropertyType(idx, propType) {
+export function receiveTopProperties(event, properties) {
     return {
-        type: types.CAST_PROPERTY_TYPE,
-        idx: idx,
-        propType: propType.value
+        type: types.RECEIVE_TOP_PROPERTIES,
+        event: event,
+        properties: properties
     }
 }
 
-export function selectOp(idx, op) {
+export function topPropertiesLoadFailure(err) {
     return {
-        type: types.SELECT_OP,
-        idx: idx,
-        op: op
+        type: types.TOP_PROPERTIES_LOAD_FAILURE,
+        err: err
     }
 }
 
-export function selectPropValue(idx, value) {
+export function fetchTopProperties(event) {
+
+    // Thunk middleware knows how to handle functions.
+    // It passes the dispatch method as an argument to the function,
+    // thus making it able to dispatch actions itself.
+    return function(dispatch) {
+        dispatch(requestTopProperties());
+        return window.MP.api.topProperties(event)
+            .then(response => response.json)
+            .then(propCounts =>Object.keys(propCounts).map(function(prop) { return {label: prop, value: prop, type: 'STRING'}}))
+            .then(topProperties => dispatch(receiveTopProperties(topProperties)))
+            .fail(err => dispatch(topPropertiesLoadFailure(err)));
+    };
+}
+
+
+export function requestTopPropertyValues() {
     return {
-        type: types.SELECT_PROP_VALUE,
-        idx: idx,
-        value: value
+        type: types.REQUEST_TOP_PROPERTY_VALUES
     }
 }
 
-export function addFilter(idx = null) {
+export function receiveTopPropertyValues(event, property, topValues) {
     return {
-        type: types.ADD_FILTER,
-        idx: idx
+        type: types.RECEIVE_TOP_PROPERTY_VALUES,
+        event: event,
+        property: property,
+        values: topValues
     }
 }
 
-export function removeFilter(idx) {
+export function topPropertiesLoadFailure(err) {
     return {
-        type: types.REMOVE_FILTER,
-        idx: idx
+        type: types.TOP_PROPERTY_VALUES_LOAD_FAILURE,
+        err: err
     }
 }
 
-export function toggleFilterOp() {
-    return {
-        type: types.TOGGLE_FILTER_OP
-    }
-}
+export function fetchTopPropertyValues(event, property) {
 
-export function segmentToFilter(idx) {
-    return {
-        type: types.SEGMENT_TO_FILTER,
-        idx: idx
-    }
-}
-
-export function filterToSegment(idx) {
-    return {
-        type: types.FILTER_TO_SEGMENT,
-        idx: idx
-    }
+    // Thunk middleware knows how to handle functions.
+    // It passes the dispatch method as an argument to the function,
+    // thus making it able to dispatch actions itself.
+    return function(dispatch) {
+        dispatch(requestTopPropertyValues());
+        return window.MP.api.propertyValues(event, property)
+            .then(response => response.json)
+            .then(topValues => topValues.map(function(val) { return {label: val, value: val}}))
+            .then(topValues => dispatch(receiveTopPropertyValues(event, property, topValues)))
+            .fail(err => dispatch(topPropertiesLoadFailure(err)));
+    };
 }

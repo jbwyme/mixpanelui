@@ -20,7 +20,8 @@
     "react": "^0.13.3",
     "react-portal": "^0.7.0",
     "react-redux": "^0.2.1",
-    "redux": "^1.0.0-rc"
+    "redux": "^1.0.0-rc",
+    "redux-thunk": "^1.0.0"
   },
   "devDependencies": {
     "babel": "^5.8.12",

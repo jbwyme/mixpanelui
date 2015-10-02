@@ -2,6 +2,7 @@
 
 import React from 'react';
 import GenericDropdown from './GenericDropdown'
+import * as PropertyTypes from '../../constants/PropertyTypes'
 
 class PropertyTypeDropdown extends React.Component {
 
@@ -15,32 +16,34 @@ class PropertyTypeDropdown extends React.Component {
         let MenuContainer = React.createClass({
             render: function() {
                 return (
-                    <div style={{width: '168px'}} className='icon_dropdown_body dropdown_body_widget'>{this.props.children}</div>
+                    <div className='icon_dropdown_body dropdown_body_widget'>{this.props.children}</div>
                 );
             }
         });
 
-        let itemRenderer = item =>
-            <div className="icon_dropdown_item dropdown_item_widget">
-                <div className={'icon ' + item.value}></div>
+        let itemRenderer = function(item) {
+            let iconCls = item.value == PropertyTypes.DATE ? 'datetime' : item.value.toLowerCase();
+            return <div className="icon_dropdown_item dropdown_item_widget">
+                <div className={'icon ' + iconCls}></div>
                 <div className="name">{item.label}</div>
             </div>;
+        };
 
         const propTypes = [{
             label: 'String',
-            value: 'string'
+            value: PropertyTypes.STRING
         }, {
             label: 'Number',
-            value: 'number'
+            value: PropertyTypes.NUMBER
         }, {
             label: 'True / False',
-            value: 'boolean'
+            value: PropertyTypes.BOOLEAN
         }, {
             label: 'Date',
-            value: 'date'
+            value: PropertyTypes.DATE
         }, {
             label: 'List',
-            value: 'list'
+            value: PropertyTypes.LIST
         }];
 
         return (

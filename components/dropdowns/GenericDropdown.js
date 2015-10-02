@@ -18,6 +18,9 @@ class GenericDropdown extends React.Component {
 
     componentWillReceiveProps(newProps) {
         if (newProps.value && newProps.value !== this.state.selected.value) {
+            if (typeof(newProps.value) !== 'object') {
+                newProps.value = this.props.options.find(item => item.value === newProps.value);
+            }
             this.setState({selected: newProps.value});
         }
     }

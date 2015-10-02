@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import Segmentation from './Segmentation';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import * as reducers from '../reducers';
+import * as PropertyTypes from '../constants/PropertyTypes'
+import thunkMiddleware from 'redux-thunk';
 
 const reducer = combineReducers(reducers);
-const store = createStore(reducer, {
+
+const createStoreWithMiddleware = applyMiddleware(
+    thunkMiddleware // lets us dispatch() functions
+)(createStore);
+
+const store = createStoreWithMiddleware(reducer, {
     segmentation: {
-        ops: [{
-            label: 'Equals',
-            value: '='
-        }, {
-            label: 'Contains',
-            value: 'contains'
-        }],
         topEvents: [{
             label: 'Viewed report',
             value: 'Viewed report'
@@ -21,58 +21,34 @@ const store = createStore(reducer, {
             label: 'Logged in',
             value: '$login'
         }],
+        topProperties: {},
+        topPropertyValues: {}
+    },
+    segfilter: {
+        ops: [{
+            label: 'Equals',
+            value: '='
+        }, {
+            label: 'Contains',
+            value: 'contains'
+        }],
         selectedEvent: {
             label: 'Viewed report',
             value: 'Viewed report'
         },
-        topProperties: [{
-            label: 'Browser',
-            value: '$browser'
-        }, {
-            label: 'City',
-            value: '$city'
-        }],
-        topValues: [{
-            label: 'Firefox',
-            value: 'firefox'
-        }, {
-            label: 'Safari',
-            value: 'safari'
-        }, {
-            label: 'Chrome',
-            value: 'chrome'
-        }],
         filters: [
             {
                 property: {
                     label: 'Browser',
                     value: '$browser',
-                    type: 'string'
+                    type: PropertyTypes.STRING
                 },
 
                 op: {
                     label: 'Equals',
                     value: '='
                 },
-                value: {
-                    label: 'Chrome',
-                    value: 'chrome'
-                }
-            }, {
-                property: {
-                    label: 'Browser',
-                    value: '$browser'
-                },
 
-                propType: {
-                    label: 'Number',
-                    value: 'number'
-                },
-
-                op: {
-                    label: 'Equals',
-                    value: '='
-                },
                 value: {
                     label: 'Chrome',
                     value: 'chrome'
@@ -81,13 +57,14 @@ const store = createStore(reducer, {
                 property: {
                     label: 'Browser',
                     value: '$browser',
-                    type: 'string'
+                    type: PropertyTypes.STRING
                 },
 
                 op: {
                     label: 'Equals',
                     value: '='
                 },
+
                 value: {
                     label: 'Chrome',
                     value: 'chrome'
@@ -96,13 +73,31 @@ const store = createStore(reducer, {
                 property: {
                     label: 'Browser',
                     value: '$browser',
-                    type: 'string'
+                    type: PropertyTypes.STRING
+                },
+
+                op: {
+                    label: 'Equals',
+                    value: '='
+                },
+
+                value: {
+                    label: 'Chrome',
+                    value: 'chrome'
+                }
+            }, {
+                property: {
+                    label: 'Browser',
+                    value: '$browser',
+                    type: PropertyTypes.STRING
                 }
             }
         ],
         filterOp: 'or'
     }
 });
+
+store.subscribe(() => console.log(store.getState()));
 
 export default class App extends Component {
     render() {

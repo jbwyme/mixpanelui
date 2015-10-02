@@ -2,12 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Dropdown from '../dropdowns/Dropdown';
+import * as PropertyTypes from '../../constants/PropertyTypes'
 import PropertyTypeDropdown from '../dropdowns/PropertyTypeDropdown';
 import EventSelect from './EventSelect'
 import Bookmarks from './Bookmarks'
 import FilterLabels from './FilterLabels'
-import * as actions from '../../actions/SegmentationActions';
+import * as actions from '../../actions/SegfilterActions';
 import classNames from 'classnames';
+
+import * as PropertyOperators from '../../constants/PropertyOperators.js'
 
 require("!style!css!less!../../less/segfilter.less");
 
@@ -19,8 +22,22 @@ export default class Segfilter extends Component {
             && !filter.isFilter
     }
 
+    componentWillMount() {
+        Segfilter.maybeAddFilter(this.props.segfilter.filters, this.props.dispatch);
+    }
+    componentWillReceiveProps(nextProps) {
+        Segfilter.maybeAddFilter(nextProps.segfilter.filters, this.props.dispatch);
+    }
+
+    static maybeAddFilter(filters, dispatch) {
+        if (filters.length === 0) {
+            dispatch(actions.addFilter())
+        }
+    }
+
     render() {
-        const { topEvents, selectedEvent, filters, filterOp } = this.props.segmentation;
+        const { selectedEvent, filters, filterOp } = this.props.segfilter;
+        const { topEvents } = this.props.segmentation;
         var filterDom = filters.map(filter => this.renderFilterRow(filters.indexOf(filter), filter));
         var lastFilter = filters[filters.length - 1];
         var hasSegment = lastFilter && this._isSegment(lastFilter);
@@ -68,38 +85,57 @@ export default class Segfilter extends Component {
     }
 
     renderFilterRow(idx, filter) {
-        let opDropdown, valueDropdown, toggleBtn;
-        let isLastFilter = idx == this.props.segmentation.filters.length - 1;
+        let operator, valueDropdown, toggleBtn;
+        let isLastFilter = idx == this.props.segfilter.filters.length - 1;
         let isSegment = isLastFilter && this._isSegment(filter);
 
         if (filter.property) {
             if (isSegment) {
-                toggleBtn = <a className="expand" onClick={e => this.props.dispatch(actions.segmentToFilter(idx))}></a>
+                toggleBtn = <a className="expand" onClick={e => this.props.dispatch(actions.expandFilter(idx))}></a>
             } else {
+                var opDropdown = <Dropdown
+                    options={PropertyOperators[filter.property.type]}
+                    onChange={op => this.props.dispatch(actions.selectOp(idx, op))}
+                    value={filter.op} />;
 
                 switch(filter.property.type) {
-                    case 'boolean':
-                        opDropdown = <div className="inline_text">is</div>;
+                    case PropertyTypes.STRING:
+                        operator = opDropdown;
+                        break;
+                    case PropertyTypes.BOOLEAN:
+                        operator = <div className="inline_text">is</div>;
+                        break;
+                    case PropertyTypes.NUMBER:
+                        operator = ([
+                            <div className="inline_text">is</div>,
+                            opDropdown
+                        ]);
+                        break;
+                    case PropertyTypes.DATE:
+                        operator = ([
+                            <div className="inline_text">was</div>,
+                            opDropdown
+                        ]);
+                        break;
+                    case PropertyTypes.LIST:
+                        operator = <div className="inline_text">contains</div>;
                         break;
                     default:
-                        opDropdown = <Dropdown
-                            options={this.props.segmentation.ops}
-                            onChange={op => this.props.dispatch(actions.selectOp(idx, op))}
-                            value={filter.op}/>;
+                        throw "Unknown property type: " + filter.property.type;
                 }
 
-
                 valueDropdown = <Dropdown
-                    options={this.props.segmentation.topValues}
+                    options={this.props.segmentation.topPropertyValues[filter.property.value]}
                     onChange={value => this.props.dispatch(actions.selectPropValue(idx, value))}
                     value={filter.value}/>;
 
                 if (isLastFilter) {
-                    toggleBtn = <a className="contract" onClick={e => this.props.dispatch(actions.filterToSegment(idx))}></a>
+                    toggleBtn = <a className="contract" onClick={e => this.props.dispatch(actions.collapseFilter(idx))}></a>
                 }
             }
         }
 
+        let propTypeVal = filter.property ? filter.property.type : null;
         return <div className="property_filter typecasting">
             <Dropdown
                 options={this.props.segmentation.topProperties}
@@ -108,10 +144,10 @@ export default class Segfilter extends Component {
 
             <PropertyTypeDropdown
                 onChange={type => this.props.dispatch(actions.castPropertyType(idx, type))}
-                value={filter.property.type} />
+                value={propTypeVal} disabled={!!filter.property} />
 
             <div className="rule">
-                {opDropdown}
+                {operator}
                 {valueDropdown}
             </div>
 
